@@ -1,0 +1,151 @@
+export const categoryMap = {
+  lowSugar: '저당 디저트',
+  glutenFree: '글루텐프리',
+  both: '저당 + 글루텐프리',
+  vegan: '비건',
+};
+
+export const offlineStores = [
+  {
+    id: '1',
+    name: '저당브런치카페',
+    district: '강남구',
+    dong: '역삼동',
+    address: '서울 강남구 역삼로 123',
+    openingHours: '10:00 - 21:00',
+    categories: ['lowSugar', 'glutenFree'],
+    menu: [
+      { name: '당근케이크', price: '9,000원' },
+      { name: '코코넛치즈볼', price: '7,500원' },
+    ],
+    deliveryAvailable: true,
+    type: 'offline',
+  },
+  {
+    id: '2',
+    name: '스위트밸런스',
+    district: '마포구',
+    dong: '합정동',
+    address: '서울 마포구 합정동 111-2',
+    openingHours: '09:30 - 20:30',
+    categories: ['both'],
+    menu: [
+      { name: '아몬드크림빵', price: '8,000원' },
+      { name: '치아바타 샐러드', price: '12,000원' },
+    ],
+    deliveryAvailable: false,
+    type: 'offline',
+  },
+  {
+    id: '3',
+    name: '비건디저트룸',
+    district: '성동구',
+    dong: '성수동',
+    address: '서울 성동구 서울숲길 45',
+    openingHours: '11:00 - 21:00',
+    categories: ['vegan'],
+    menu: [
+      { name: '비건 초코렛 케이크', price: '11,000원' },
+      { name: '코코넛 쿠키', price: '6,500원' },
+    ],
+    deliveryAvailable: true,
+    type: 'offline',
+  },
+  {
+    id: '4',
+    name: '건강한디저트',
+    district: '서초구',
+    dong: '서초동',
+    address: '서울 서초구 서초대로 88',
+    openingHours: '08:30 - 19:30',
+    categories: ['lowSugar', 'both'],
+    menu: [
+      { name: '저당 브라우니', price: '8,500원' },
+      { name: '무가당 요거트볼', price: '7,000원' },
+    ],
+    deliveryAvailable: true,
+    type: 'offline',
+  },
+  {
+    id: '5',
+    name: '글루텐프리라운지',
+    district: '강남구',
+    dong: '논현동',
+    address: '서울 강남구 논현로 241',
+    openingHours: '10:00 - 22:00',
+    categories: ['glutenFree'],
+    menu: [
+      { name: '라즈베리 타르트', price: '10,500원' },
+      { name: '아몬드 쿠키', price: '6,000원' },
+    ],
+    deliveryAvailable: false,
+    type: 'offline',
+  },
+  {
+    id: '6',
+    name: '헬시스위트',
+    district: '종로구',
+    dong: '이화동',
+    address: '서울 종로구 이화동 13-9',
+    openingHours: '09:00 - 20:00',
+    categories: ['lowSugar', 'vegan'],
+    menu: [
+      { name: '바나나오트 케이크', price: '9,200원' },
+      { name: '코코넛 타르트', price: '8,800원' },
+    ],
+    deliveryAvailable: true,
+    type: 'offline',
+  },
+];
+
+export const onlineStores = [
+  {
+    id: '7',
+    name: '온리저당딜리버리',
+    address: '전국 택배 배송',
+    openingHours: '09:00 - 18:00',
+    categories: ['lowSugar'],
+    menu: [
+      { name: '저당 쿠키 세트', price: '19,000원' },
+      { name: '치아씨드 스무디볼', price: '12,000원' },
+    ],
+    deliveryAvailable: true,
+    type: 'online',
+    isOnlineSpecialist: true,
+  },
+  {
+    id: '8',
+    name: '프리바이오틱스',
+    address: '전국 택배 배송',
+    openingHours: '10:00 - 20:00',
+    categories: ['glutenFree', 'both'],
+    menu: [
+      { name: '글루텐프리 머핀', price: '15,000원' },
+      { name: '대체당 케이크', price: '18,000원' },
+    ],
+    deliveryAvailable: true,
+    type: 'online',
+    isOnlineSpecialist: true,
+  },
+  {
+    id: '9',
+    name: '비건컬렉션',
+    address: '전국 택배 배송',
+    openingHours: '11:00 - 21:00',
+    categories: ['vegan', 'both'],
+    menu: [
+      { name: '비건 초콜릿', price: '8,900원' },
+      { name: '코코넛 젤리', price: '10,500원' },
+    ],
+    deliveryAvailable: true,
+    type: 'online',
+    isOnlineSpecialist: true,
+  },
+];
+
+export const quickStats = [
+  { label: '오프라인 매장', value: '6개' },
+  { label: '온라인 택배', value: '3개' },
+  { label: '저당 + 글루텐프리', value: '2개' },
+  { label: '비건 전문', value: '1개' },
+];
