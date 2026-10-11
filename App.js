@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import HomeScreen from './HomeScreen';
-import OfflineScreen from './OfflineScreen';
-import OnlineScreen from './OnlineScreen';
+import { View, StyleSheet } from 'react-native';
+import HomeScreen from './src/screens/HomeScreen';
+import OfflineScreen from './src/screens/OfflineScreen';
+import OnlineScreen from './src/screens/OnlineScreen';
 
 const TABS = [
   { key: 'home', label: '홈' },
@@ -25,16 +25,14 @@ export default function App() {
 
       <View style={styles.tabBar}>
         {TABS.map((tab) => (
-          <TouchableOpacity
+          <View
             key={tab.key}
-            activeOpacity={0.8}
-            onPress={() => setActiveTab(tab.key)}
             style={[styles.tab, activeTab === tab.key && styles.tabActive]}
           >
             <Text style={[styles.tabText, activeTab === tab.key && styles.tabTextActive]}>
               {tab.label}
             </Text>
-          </TouchableOpacity>
+          </View>
         ))}
       </View>
     </View>

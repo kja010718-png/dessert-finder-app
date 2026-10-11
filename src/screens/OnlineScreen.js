@@ -6,12 +6,15 @@ const categoryOptions = ['all', 'lowSugar', 'glutenFree', 'both', 'vegan'];
 
 export default function OnlineScreen() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [deliveryOnly, setDeliveryOnly] = useState(false);
 
   const filteredStores = useMemo(() => {
     return onlineStores.filter((store) => {
-      return selectedCategory === 'all' || store.categories.includes(selectedCategory);
+      const categoryMatch = selectedCategory === 'all' || store.categories.includes(selectedCategory);
+      const deliveryMatch = !deliveryOnly || store.deliveryAvailable;
+      return categoryMatch && deliveryMatch;
     });
-  }, [selectedCategory]);
+  }, [selectedCategory, deliveryOnly]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,6 +35,15 @@ export default function OnlineScreen() {
             </TouchableOpacity>
           ))}
         </ScrollView>
+
+        <TouchableOpacity
+          style={[styles.toggle, deliveryOnly && styles.toggleSelected]}
+          onPress={() => setDeliveryOnly((prev) => !prev)}
+        >
+          <Text style={[styles.toggleText, deliveryOnly && styles.toggleTextSelected]}>
+            {deliveryOnly ? '배송 가능만 보기 ON' : '배송 가능만 보기 OFF'}
+          </Text>
+        </TouchableOpacity>
 
         {filteredStores.map((store) => (
           <View key={store.id} style={styles.card}>
@@ -106,6 +118,26 @@ const styles = StyleSheet.create({
   },
   chipTextSelected: {
     color: '#FFFFFF',
+  },
+  toggle: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#DCEAE2',
+    marginBottom: 12,
+  },
+  toggleSelected: {
+    backgroundColor: '#EAF4EE',
+    borderColor: '#B8D9C7',
+  },
+  toggleText: {
+    color: '#1B3A2F',
+    fontWeight: '700',
+  },
+  toggleTextSelected: {
+    color: '#215A45',
   },
   card: {
     backgroundColor: '#FFFFFF',

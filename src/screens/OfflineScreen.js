@@ -6,26 +6,30 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
-  FlatList,
 } from 'react-native';
-import { offlineStores, onlineStores, categoryMap } from '../data/mockData';
+import { offlineStores, categoryMap } from '../data/mockData';
+import { getDistrictDongs } from '../data/locations';
 
 const categoryOptions = ['all', 'lowSugar', 'glutenFree', 'both', 'vegan'];
 
 export default function OfflineScreen() {
   const [selectedDistrict, setSelectedDistrict] = useState('강남구');
+  const [selectedDong, setSelectedDong] = useState('역삼동');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [deliveryOnly, setDeliveryOnly] = useState(false);
 
   const districts = [...new Set(offlineStores.map((store) => store.district))];
+  const dongs = getDistrictDongs(selectedDistrict);
 
   const filteredStores = useMemo(() => {
     return offlineStores.filter((store) => {
-      const matchesDistrict = store.district === selectedDistrict;
-      const matchesCategory =
-        selectedCategory === 'all' || store.categories.includes(selectedCategory);
-      return matchesDistrict && matchesCategory;
+      const districtMatch = store.district === selectedDistrict;
+      const dongMatch = selectedDong === 'all' || store.dong === selectedDong;
+      const categoryMatch = selectedCategory === 'all' || store.categories.includes(selectedCategory);
+      const deliveryMatch = !deliveryOnly || store.deliveryAvailable;
+      return districtMatch && dongMatch && categoryMatch && deliveryMatch;
     });
-  }, [selectedDistrict, selectedCategory]);
+  }, [selectedDistrict, selectedDong, selectedCategory, deliveryOnly]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,10 +41,37 @@ export default function OfflineScreen() {
             <TouchableOpacity
               key={district}
               style={[styles.chip, district === selectedDistrict && styles.chipSelected]}
-              onPress={() => setSelectedDistrict(district)}
+              onPress={() => {
+                setSelectedDistrict(district);
+                const nextDongs = getDistrictDongs(district);
+                setSelectedDong(nextDongs[0] || 'all');
+              }}
             >
               <Text style={[styles.chipText, district === selectedDistrict && styles.chipTextSelected]}>
                 {district}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipRow}>
+          <TouchableOpacity
+            style={[styles.chip, selectedDong === 'all' && styles.chipSelected]}
+            onPress={() => setSelectedDong('all')}
+          >
+            <Text style={[styles.chipText, selectedDong === 'all' && styles.chipTextSelected]}>
+              전체 동
+            </Text>
+          </TouchableOpacity>
+
+          {dongs.map((dong) => (
+            <TouchableOpacity
+              key={dong}
+              style={[styles.chip, dong === selectedDong && styles.chipSelected]}
+              onPress={() => setSelectedDong(dong)}
+            >
+              <Text style={[styles.chipText, dong === selectedDong && styles.chipTextSelected]}>
+                {dong}
               </Text>
             </TouchableOpacity>
           ))}
@@ -59,6 +90,15 @@ export default function OfflineScreen() {
             </TouchableOpacity>
           ))}
         </ScrollView>
+
+        <TouchableOpacity
+          style={[styles.toggle, deliveryOnly && styles.toggleSelected]}
+          onPress={() => setDeliveryOnly((prev) => !prev)}
+        >
+          <Text style={[styles.toggleText, deliveryOnly && styles.toggleTextSelected]}>
+            {deliveryOnly ? '택배 가능만 보기 ON' : '택배 가능만 보기 OFF'}
+          </Text>
+        </TouchableOpacity>
 
         {filteredStores.length === 0 ? (
           <View style={styles.emptyCard}>
@@ -134,6 +174,26 @@ const styles = StyleSheet.create({
   },
   chipTextSelected: {
     color: '#FFFFFF',
+  },
+  toggle: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#DCEAE2',
+    marginBottom: 12,
+  },
+  toggleSelected: {
+    backgroundColor: '#EAF4EE',
+    borderColor: '#B8D9C7',
+  },
+  toggleText: {
+    color: '#1B3A2F',
+    fontWeight: '700',
+  },
+  toggleTextSelected: {
+    color: '#215A45',
   },
   card: {
     backgroundColor: '#FFFFFF',
